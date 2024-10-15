@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block title %}Share file{% endblock %}
+
+{% block content %}
+<h2>Share File</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="user_id">Select User:</label>
+    <select id="user_id" name="user_id">
+        {% for user in users %}
+            <option value="{{ user.id }}">{{ user.username }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label for="can_view">Can View:</label>
+    <input type="checkbox" id="can_view" name="can_view">
+    <br>
+    <label for="can_edit">Can Edit:</label>
+    <input type="checkbox" id="can_edit" name="can_edit">
+    <br>
+    <button type="submit">Share</button>
+</form>
+{% endblock%}
