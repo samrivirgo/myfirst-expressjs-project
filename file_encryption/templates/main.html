@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My App{% endblock %}</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- DaisyUI CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.14.3/dist/full.css" rel="stylesheet" type="text/css" />
+
+    <!-- Custom CSS -->
+    <style>
+        
+        .custom-class {
+            color: #4CAF50;
+        }
+    </style>
+
+    {% block head %}
+    <!-- Additional head content can be inserted here -->
+    {% endblock %}
+</head>
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <!-- Main container -->
+    <div class="flex-grow container mx-auto p-4">
+        <!-- Navbar or header section -->
+        <header class="mb-8">
+            <nav class="bg-white shadow-md rounded-lg p-4 flex justify-between items-center">
+                <div class="flex space-x-4">
+                    <a href="/" class="btn btn-link text-primary">Home</a>
+                    <a href="{% url 'list_uploaded_files' %}" class="btn btn-link text-primary">View</a>
+                </div>
+            
+                <div class="relative">
+                    {% if user.is_authenticated %}
+                        <button class="flex items-center space-x-2 focus:outline-none" id="profileMenuButton">
+                            <img src="https://via.placeholder.com/40" alt="Profile Picture" class="w-10 h-10 rounded-full">
+                            <span class="text-gray-700">{{ user.username }}</span>
+                            <svg class="w-5 h-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+            
+                        <div class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 hidden" id="profileMenuDropdown">
+                            <a href="{% url 'profile' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">My Profile</a>
+                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</a>
+                        </div>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-link text-primary">Login</a>
+                    {% endif %}
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main content section -->
+        <main>
+            {% block content %}
+            <!-- Dynamic content will go here -->
+            {% endblock %}
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white w-full py-4 text-center text-gray-500">
+        &copy; 2024 All rights reserved.
+    </footer>
+
+     <!-- Dropdown scripts -->
+    <script>
+        const profileMenuButton = document.getElementById('profileMenuButton');
+        const profileMenuDropdown = document.getElementById('profileMenuDropdown');
+        
+        profileMenuButton.addEventListener('click', () => {
+            profileMenuDropdown.classList.toggle('hidden');
+        });
+    
+        document.addEventListener('click', (event) => {
+            if (!profileMenuButton.contains(event.target)) {
+                profileMenuDropdown.classList.add('hidden');
+            }
+        });
+    </script>
+
+    
+    {% block scripts %}
+    
+    
+    {% endblock %}
+</body>
+
+</html>

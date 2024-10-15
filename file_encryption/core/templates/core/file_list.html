@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+
+{% block title %}
+    Uploaded Files
+{% endblock %}
+
+{% block content %}
+    <h2 class="text-2xl font-bold mb-4">Uploaded Files</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for file in files %}
+        <div class="card bg-white shadow-md rounded-lg p-4">
+            <div class="flex items-center mb-4">
+               
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M4 2a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6.414A2 2 0 0016.414 5L13 1.586A2 2 0 0011.586 1H4zm9 7v2H7V9h6zm0 4v2H7v-2h6z"/>
+                </svg>
+
+                <div class="ml-4">
+                    <h3 class="font-bold text-lg text-gray-700">{{ file.file_name }}</h3>
+                    <p class="text-sm text-gray-500">Uploaded: {{ file.uploaded }}</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col space-y-2">
+                <!-- Form for encrypted view -->
+                <form method="GET" action="{% url 'view_encrypted_file' file.id %}" class="flex space-x-2">
+                    <input type="password" name="password" placeholder="Enter password" class="input input-bordered input-sm w-full max-w-xs">
+                    <button type="submit" class="btn btn-sm btn-primary">View</button>
+                </form>
+
+                <!-- Download button -->
+                <a href="{% url 'download_file' file.id %}" class="btn btn-sm btn-secondary w-full text-center">Download</a>
+                <!-- share file-->
+                <a href="{% url 'share_file' file.id %}" class="btn btn-sm btn-secondary w-full text-center">Share file</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
